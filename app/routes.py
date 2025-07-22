@@ -399,7 +399,7 @@ async def login_for_access_token(
         key="refresh_token",
         value=refresh_token,  # ACTUAL TOKEN VALUE
         httponly=True,
-        secure=False,  # False for HTTP (localhost)
+        secure=True,  # False for HTTP (localhost)
         samesite="none",
         max_age=REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
         path="/",
