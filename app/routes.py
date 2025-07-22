@@ -7,7 +7,7 @@ from app.models import User, Product, Cart, Order
 from app.schemas import IProductItem
 from pydantic import BaseModel
 from sqlalchemy.orm.attributes import flag_modified
-from app.auth import jwt_bearer, get_current_user, bcrypt_context, JWT_SECRET, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, authenticate_user, create_access_token, user_dependency, verify_token, REFRESH_TOKEN_EXPIRE_DAYS, oauth2_scheme
+from app.auth import jwt_bearer, get_current_user, bcrypt_context, authenticate_user, create_access_token, user_dependency, verify_token, oauth2_scheme
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 from typing import Optional
@@ -22,6 +22,10 @@ import smtplib
 import os
 
 router = APIRouter()
+
+import sys
+sys.path.append('/etc/secrets/')
+import secrecy
 
 # Схемы
 class UserCreate(BaseModel):
