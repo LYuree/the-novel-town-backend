@@ -12,7 +12,12 @@ from app.models import User
 from typing import Annotated
 import bcrypt
 
-from app.certificates.secrecy import JWT_SECRET, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
+# from app.certificates.secrecy import JWT_SECRET, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
+
+import sys
+sys.path.append('/etc/secrets/')
+import secrecy
+
 
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
