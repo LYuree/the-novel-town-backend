@@ -34,6 +34,8 @@ ALGORITHM = config['ALGORITHM']
 ACCESS_TOKEN_EXPIRE_MINUTES = config['ACCESS_TOKEN_EXPIRE_MINUTES']
 REFRESH_TOKEN_EXPIRE_DAYS = config['REFRESH_TOKEN_EXPIRE_DAYS']
 
+API_URL = "https://the-novel-town-backend.onrender.com"
+
 router = APIRouter()
 
 # Схемы
@@ -97,7 +99,7 @@ def send_activation_token(user_email: str, activation_token: str):
     <html>
     <head></head>
     <body>
-        <a href="http://127.0.0.1:8000/activate/{activation_token}">Подтвердить e-mail</a>
+        <a href="{API_URL}/activate/{activation_token}">Подтвердить e-mail</a>
     </body>
     </html>
     """
