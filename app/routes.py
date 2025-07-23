@@ -21,18 +21,18 @@ from email.mime.multipart import MIMEMultipart
 import smtplib 
 import os
 
-from app.certificates.secrecy import JWT_SECRET, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
+# from app.certificates.secrecy import JWT_SECRET, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
 
 # for prod environment (Render)
 
-# import json
-# with open('/etc/secrets/secrecy.config.json', 'r') as f:
-#     config = json.load(f)
+import json
+with open('/etc/secrets/secrecy.config.json', 'r') as f:
+    config = json.load(f)
 
-# JWT_SECRET = config['JWT_SECRET']
-# ALGORITHM = config['ALGORITHM']
-# ACCESS_TOKEN_EXPIRE_MINUTES = config['ACCESS_TOKEN_EXPIRE_MINUTES']
-# REFRESH_TOKEN_EXPIRE_DAYS = config['REFRESH_TOKEN_EXPIRE_DAYS']
+JWT_SECRET = config['JWT_SECRET']
+ALGORITHM = config['ALGORITHM']
+ACCESS_TOKEN_EXPIRE_MINUTES = config['ACCESS_TOKEN_EXPIRE_MINUTES']
+REFRESH_TOKEN_EXPIRE_DAYS = config['REFRESH_TOKEN_EXPIRE_DAYS']
 
 router = APIRouter()
 
