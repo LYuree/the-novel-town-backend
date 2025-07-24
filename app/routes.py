@@ -405,7 +405,6 @@ async def login_for_access_token(
         samesite="none",
         max_age=REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
         path="/",
-        domain=".onrender.com",
     )
 
     return {
