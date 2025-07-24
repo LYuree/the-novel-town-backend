@@ -162,7 +162,7 @@ def get_user(activation_token: str, request: Request, db: Session = Depends(get_
     flag_modified(user, "active")
     db.commit()
     db.refresh(user)
-    redirect_url = f"""{API_URL}/signin"""
+    redirect_url = "https://comic-lair-vite-app.onrender.com/signin"
     return RedirectResponse(redirect_url, status_code=status.HTTP_303_SEE_OTHER)
 
 # @router.get("/get-role")
