@@ -34,7 +34,15 @@ from app.certificates.secrecy import JWT_SECRET, ALGORITHM, ACCESS_TOKEN_EXPIRE_
 # ACCESS_TOKEN_EXPIRE_MINUTES = config['ACCESS_TOKEN_EXPIRE_MINUTES']
 # REFRESH_TOKEN_EXPIRE_DAYS = config['REFRESH_TOKEN_EXPIRE_DAYS']
 
+# Render hosting
+
 API_URL = "https://the-novel-town-backend.onrender.com"
+FRONTEND_URL = "https://comic-lair-vite-app.onrender.com"
+
+# local debug
+
+# API_URL = "http://localhost:8000"
+# FRONTEND_URL = "http://localhost:3000"
 
 router = APIRouter()
 
@@ -162,7 +170,7 @@ def get_user(activation_token: str, request: Request, db: Session = Depends(get_
     flag_modified(user, "active")
     db.commit()
     db.refresh(user)
-    redirect_url = "https://comic-lair-vite-app.onrender.com/signin"
+    redirect_url = f"{FRONTEND_URL}/signin"
     return RedirectResponse(redirect_url, status_code=status.HTTP_303_SEE_OTHER)
 
 # @router.get("/get-role")
@@ -405,7 +413,6 @@ async def login_for_access_token(
         samesite="none",
         max_age=REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
         path="/",
-        domain=".onrender.com",
     )
 
     return {
