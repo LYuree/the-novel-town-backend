@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.pool import NullPool
 from sqlalchemy import create_engine
-from dotenv import load_dotenv
 import os
 
 # for Render hosting environment
@@ -22,6 +21,7 @@ DBNAME = config['DBNAME']
 
 # local debug
 # Load environment variables from .env
+# from dotenv import load_dotenv
 # load_dotenv()
 
 # # Fetch variables
