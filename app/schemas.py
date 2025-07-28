@@ -44,14 +44,19 @@ class IProductItem(BaseModel):
             print(f"{v} is instance")
             # If it's a JSON-string, parse it to a Python list
             return json.loads(v)
+        else:
+            print(f"{v} is NOT an instance")
         return v
     
     @field_validator("reviews")
     def parse_categories(cls, v):
         if isinstance(v, str):
-            print(f"{v} is instance")
+            print(f"{v} is an instance")
             # If it's a JSON-string, parse it to a Python list
             return json.loads(v)
+        else:
+            print(f"{v} is NOT an instance")
+
         return v
 
     class Config:
