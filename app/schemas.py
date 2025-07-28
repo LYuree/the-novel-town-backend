@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing import List, Optional
+import json
 
 
 # Запросы на создание пользователя
@@ -21,7 +22,7 @@ class CartUpdate(BaseModel):
 
 
 class IProductItem(BaseModel):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: Optional[int] = Field(default=None)
     name: str
     description: str
     price: float
@@ -36,6 +37,20 @@ class IProductItem(BaseModel):
     amount: int
     # images: List[ICoverImage]
     reviews: Optional[List[str]] = None
+
+    @field_validator("categories", pre=True)
+    def parse_categories(cls, v):
+        if isinstance(v, str):
+            # If it's a JSON-string, parse it to a Python list
+            return json.loads(v)
+        return v
+    
+    @field_validator("reviews", pre=True)
+    def parse_categories(cls, v):
+        if isinstance(v, str):
+            # If it's a JSON-string, parse it to a Python list
+            return json.loads(v)
+        return v
 
     class Config:
         orm_mode = True
