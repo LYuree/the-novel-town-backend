@@ -38,14 +38,14 @@ class IProductItem(BaseModel):
     # images: List[ICoverImage]
     reviews: Optional[List[str]] = None
 
-    @field_validator("categories", pre=True)
+    @field_validator("categories")
     def parse_categories(cls, v):
         if isinstance(v, str):
             # If it's a JSON-string, parse it to a Python list
             return json.loads(v)
         return v
     
-    @field_validator("reviews", pre=True)
+    @field_validator("reviews")
     def parse_categories(cls, v):
         if isinstance(v, str):
             # If it's a JSON-string, parse it to a Python list
