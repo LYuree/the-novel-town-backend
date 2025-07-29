@@ -57,6 +57,7 @@ class Order(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(String, ForeignKey("users.id"))
-    order_details = Column(String)  # Данные о заказе (можно сделать JSON-строкой)
+    order_products = Column(JSON, default=[])  # Массив объектов {product_id, quantity}
+    # order_details = Column(String)  # Данные о заказе (можно сделать JSON-строкой)
 
     user = relationship("User", back_populates="orders")

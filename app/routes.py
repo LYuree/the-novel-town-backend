@@ -347,7 +347,7 @@ def delete_from_cart(cart_id: str, product_id: int, db: Session = Depends(get_db
 # Заказы
 @router.post("/orders/")
 def create_order(order: OrderCreate, db: Session = Depends(get_db)):
-    db_order = Order(user_id=order.user_id, order_details=order.order_details)
+    db_order = Order(user_id=order.user_id, order_products=order.order_products)
     db.add(db_order)
     db.commit()
     db.refresh(db_order)
