@@ -38,21 +38,6 @@ class IProductItem(BaseModel):
     # images: List[ICoverImage]
     reviews: Optional[List[str]] = None
 
-    @field_validator("categories")
-    def parse_categories(cls, v):
-        if isinstance(v, str):
-            print(f"{v} is instance")
-            # If it's a JSON-string, parse it to a Python list
-            return json.loads(v)
-        return v
-    
-    @field_validator("reviews")
-    def parse_categories(cls, v):
-        if isinstance(v, str):
-            print(f"{v} is instance")
-            # If it's a JSON-string, parse it to a Python list
-            return json.loads(v)
-        return v
-
     class Config:
-        orm_mode = True
+        # orm_mode = True
+        from_attributes = True

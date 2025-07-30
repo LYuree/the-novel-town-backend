@@ -12,8 +12,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 from typing import Optional
 from fastapi.responses import RedirectResponse
-from uuid import uuid4
-from sqlalchemy.dialects.postgresql import UUID
+from uuid import uuid4, UUID
+# from sqlalchemy.dialects.postgresql import UUID
 
 
 from email.mime.text import MIMEText 
