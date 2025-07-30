@@ -85,7 +85,7 @@ class CartResponse(BaseModel):
 
 class OrderCreate(BaseModel):
     user_id: UUID
-    order_details: str
+    order_products: str
 
 def send_activation_token(user_email: str, activation_token: str):
     smtp = smtplib.SMTP('smtp.gmail.com', 587) 
