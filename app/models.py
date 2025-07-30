@@ -11,7 +11,7 @@ from uuid import UUID
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, index=True)  # Уникальный ID пользователя
+    id = Column(UUID, primary_key=True, index=True)  # Уникальный ID пользователя
     username = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
     password = Column(String, nullable=False)  # Пароль пользователя
@@ -48,7 +48,7 @@ class Product(Base):
 class Cart(Base):
     __tablename__ = "carts"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, index=True)  # ID корзины
+    id = Column(UUID, primary_key=True, index=True)  # ID корзины
     user_id = Column(String, ForeignKey("users.id"), nullable=False)  # ID пользователя
     products = Column(JSON, default=[])  # Массив объектов {product_id, quantity}
 
@@ -59,7 +59,7 @@ class Order(Base):
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    user_id = Column(UUID, ForeignKey("users.id"))
     order_products = Column(JSON, default=[])  # Массив объектов {product_id, quantity}
     # order_details = Column(String)  # Данные о заказе (можно сделать JSON-строкой)
 
