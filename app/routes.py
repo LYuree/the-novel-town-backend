@@ -12,7 +12,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 from typing import Optional
 from fastapi.responses import RedirectResponse
-import uuid
+from uuid import UUID, uuid4
+
 
 from email.mime.text import MIMEText 
 from email.mime.image import MIMEImage 
@@ -46,7 +47,7 @@ router = APIRouter()
 
 # Схемы
 class UserCreate(BaseModel):
-    id: str  # Новый ID пользователя
+    id: UUID  # Новый ID пользователя
     username: str
     email: str
     password: str
@@ -62,8 +63,8 @@ class ProductCreate(BaseModel):
 
 
 class CartCreate(BaseModel):
-    cart_id: str
-    user_id: str
+    cart_id: UUID
+    user_id: UUID
 
 
 class CartAdd(BaseModel):
@@ -77,12 +78,12 @@ class CartUpdate(BaseModel):
 
 
 class CartResponse(BaseModel):
-    id: str
-    user_id: str
+    id: UUID
+    user_id: UUID
     products: List[Dict[str, int]]  # Массив объектов {product_id, quantity}
 
 class OrderCreate(BaseModel):
-    user_id: str
+    user_id: UUID
     order_details: str
 
 def send_activation_token(user_email: str, activation_token: str):
@@ -140,7 +141,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
         )
 
     
-    activation_token=str(uuid.uuid4())
+    activation_token=str(uuid4())
     db_user = User(
         id=user.id,
         username=user.username,
@@ -280,8 +281,12 @@ def add_to_cart(cart_id: str, item: CartAdd, db: Session = Depends(get_db)):
 
 @router.get("/carts/{user_id}", response_model=CartResponse)
 def get_cart(user_id: str, db: Session = Depends(get_db)):
+    try:
+        user_uuid = UUID(user_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid UUID format for user_id")
     """Получить содержимое корзины пользователя."""
-    cart = db.query(Cart).filter(Cart.user_id == user_id).first()
+    cart = db.query(Cart).filter(Cart.user_id == user_uuid).first()
     if not cart:
         raise HTTPException(status_code=404, detail="Cart not found")
     return cart
