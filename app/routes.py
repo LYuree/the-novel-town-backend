@@ -371,7 +371,7 @@ def get_all_orders(db: Session = Depends(get_db)):
     if not orders:
         return []
     
-    return [{"id": order.id, "user_id": order.user_id, "order_details": order.order_details} for order in orders]
+    return [{"id": order.id, "user_id": order.user_id, "order_products": order.order_products} for order in orders]
 
 @router.post("/users/token")
 async def login_for_access_token(
