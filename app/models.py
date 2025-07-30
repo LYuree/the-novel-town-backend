@@ -2,8 +2,8 @@
 from sqlalchemy import JSON, Boolean, Column, Float, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app.database import Base
-# from sqlalchemy.dialects.postgresql import UUID
-from uuid import UUID
+from sqlalchemy.dialects.postgresql import UUID
+# from uuid import UUID
 
 
 
