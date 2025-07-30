@@ -46,7 +46,7 @@ async def authenticate_user(username: str, password: str, db):
     return user
 
 def create_access_token(username: str, user_id: UUID, role: str, expires_delta: timedelta) -> str:
-    encode = {'sub': username, 'id': user_id, 'role' : role}
+    encode = {'sub': username, 'id': str(user_id), 'role' : role}
     expires = datetime.utcnow() + expires_delta
     encode.update({'exp': expires})
     return jwt.encode(encode, JWT_SECRET, algorithm=ALGORITHM)
