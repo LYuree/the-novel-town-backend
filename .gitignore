@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 app/certificates/
 venv/
+venv-py312/
+.env

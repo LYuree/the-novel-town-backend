@@ -1,3 +1,4 @@
+from uuid import UUID
 from fastapi import Request, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import status, FastAPI, HTTPException, Depends, Security, Request
@@ -12,9 +13,9 @@ from app.models import User
 from typing import Annotated
 import bcrypt
 
-# from app.certificates.secrecy import JWT_SECRET, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
+# from app.certificates.secrecy import JWT_SECRET, ALGORITHM
 
-# for prod environment (Render)
+# for Render hosting environment 
 
 import json
 with open('/etc/secrets/secrecy.config.json', 'r') as f:
@@ -44,8 +45,8 @@ async def authenticate_user(username: str, password: str, db):
     
     return user
 
-def create_access_token(username: str, user_id: str, role: str, expires_delta: timedelta):
-    encode = {'sub': username, 'id': user_id, 'role' : role}
+def create_access_token(username: str, user_id: UUID, role: str, expires_delta: timedelta) -> str:
+    encode = {'sub': username, 'id': str(user_id), 'role' : role}
     expires = datetime.utcnow() + expires_delta
     encode.update({'exp': expires})
     return jwt.encode(encode, JWT_SECRET, algorithm=ALGORITHM)
@@ -68,11 +69,12 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[ALGORITHM])
         username: str = payload.get('sub').strip()
-        user_id: str = payload.get('id').strip()
+        user_id_raw: str = payload.get('id').strip()
         
         if username is None or user_id is None:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                 detail='Could not validate user.')
+        user_id = UUID(user_id_raw)
         return {'username': username, 'id': user_id}
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
