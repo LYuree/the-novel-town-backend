@@ -25,24 +25,24 @@ import os
 
 # for Render hosting environment 
 
-import json
-with open('/etc/secrets/secrecy.config.json', 'r') as f:
-    config = json.load(f)
+# import json
+# with open('/etc/secrets/secrecy.config.json', 'r') as f:
+#     config = json.load(f)
 
-JWT_SECRET = config['JWT_SECRET']
-ALGORITHM = config['ALGORITHM']
-ACCESS_TOKEN_EXPIRE_MINUTES = config['ACCESS_TOKEN_EXPIRE_MINUTES']
-REFRESH_TOKEN_EXPIRE_DAYS = config['REFRESH_TOKEN_EXPIRE_DAYS']
+# JWT_SECRET = config['JWT_SECRET']
+# ALGORITHM = config['ALGORITHM']
+# ACCESS_TOKEN_EXPIRE_MINUTES = config['ACCESS_TOKEN_EXPIRE_MINUTES']
+# REFRESH_TOKEN_EXPIRE_DAYS = config['REFRESH_TOKEN_EXPIRE_DAYS']
 
-API_URL = "https://the-novel-town-backend.onrender.com"
-FRONTEND_URL = "https://comic-lair-vite-app.onrender.com"
+# API_URL = "https://the-novel-town-backend.onrender.com"
+# FRONTEND_URL = "https://comic-lair-vite-app.onrender.com"
 
 # local debug
 
-# from app.certificates.secrecy import JWT_SECRET, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
+from app.certificates.secrecy import JWT_SECRET, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
 
-# API_URL = "http://localhost:8000"
-# FRONTEND_URL = "http://localhost:3000"
+API_URL = "http://localhost:8000"
+FRONTEND_URL = "http://localhost:3000"
 
 router = APIRouter()
 
@@ -524,6 +524,21 @@ async def refresh_access_token(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Refresh token has expired")
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Invalid refresh token")
+    
+
+# for logging out
+@router.post("/users/logout-cookie")
+async def logout_cookie(response: Response):
+    """
+    Removes the 'refresh_token' cookie from the client.
+    Call this route from the frontend when the user presses 'log out'.
+    """
+    response.delete_cookie(
+        key="refresh_token",
+        path="/",            # Use the same path as the original cookie
+    )
+    # Optionally, for strict cache removal you could repeat with various samesite/secure values
+    return {"message": "Logged out: refresh_token deleted"}
     
 @router.get("/check-cookie")
 async def check_cookie(request: Request):
