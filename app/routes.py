@@ -528,15 +528,28 @@ async def refresh_access_token(request: Request, db: Session = Depends(get_db)):
 
 # for logging out
 @router.post("/users/logout-cookie")
-async def logout_cookie(response: Response):
+async def logout_cookie(response: Response,
+    request: Request,
+    db: Session = Depends(get_db)):
     """
-    Removes the 'refresh_token' cookie from the client.
-    Call this route from the frontend when the user presses 'log out'.
+    Remove the 'refresh_token' cookie from the client 
+    and clear the refresh_token in the database for the current user.
     """
-    response.delete_cookie(
-        key="refresh_token",
-        path="/",            # Use the same path as the original cookie
-    )
+    # Get refresh_token from cookie (or from body/header if you use tokens that way)
+    refresh_token = request.cookies.get("refresh_token")
+
+    if not refresh_token:
+        raise HTTPException(status_code=400, detail="No refresh_token cookie found.")
+
+    # Find user by refresh_token (assuming one token per user)
+    user = db.query(User).filter(User.refresh_token == refresh_token).first()
+    if user:
+        user.refresh_token = None
+        db.commit()
+    # Optionally, silently succeed even if not found
+
+    # Remove cookie from browser
+    response.delete_cookie(key="refresh_token", path="/")
     # Optionally, for strict cache removal you could repeat with various samesite/secure values
     return {"message": "Logged out: refresh_token deleted"}
     
