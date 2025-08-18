@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 import os
 
 # for Render hosting environment
+
 import json
 with open('/etc/secrets/secrecy.config.json', 'r') as f:
     config = json.load(f)
@@ -19,6 +20,7 @@ DBNAME = config['DBNAME']
 
 # local debug
 # Load environment variables from .env
+
 # from dotenv import load_dotenv
 # load_dotenv()
 

@@ -13,8 +13,6 @@ from app.models import User
 from typing import Annotated
 import bcrypt
 
-# from app.certificates.secrecy import JWT_SECRET, ALGORITHM
-
 # for Render hosting environment 
 
 import json
@@ -25,6 +23,13 @@ JWT_SECRET = config['JWT_SECRET']
 ALGORITHM = config['ALGORITHM']
 ACCESS_TOKEN_EXPIRE_MINUTES = config['ACCESS_TOKEN_EXPIRE_MINUTES']
 REFRESH_TOKEN_EXPIRE_DAYS = config['REFRESH_TOKEN_EXPIRE_DAYS']
+
+# local debug
+
+# from app.certificates.secrecy import JWT_SECRET, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_DAYS
+
+# API_URL = "http://localhost:8000"
+# FRONTEND_URL = "http://localhost:3000"
 
 
 

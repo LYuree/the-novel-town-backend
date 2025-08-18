@@ -525,6 +525,21 @@ async def refresh_access_token(request: Request, db: Session = Depends(get_db)):
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Invalid refresh token")
     
+
+# for logging out
+@router.post("/users/logout-cookie")
+async def logout_cookie(response: Response):
+    """
+    Removes the 'refresh_token' cookie from the client.
+    Call this route from the frontend when the user presses 'log out'.
+    """
+    response.delete_cookie(
+        key="refresh_token",
+        path="/",            # Use the same path as the original cookie
+    )
+    # Optionally, for strict cache removal you could repeat with various samesite/secure values
+    return {"message": "Logged out: refresh_token deleted"}
+    
 @router.get("/check-cookie")
 async def check_cookie(request: Request):
     return {"refresh_token" : request.cookies.get("refresh_token")}
