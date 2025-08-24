@@ -12,17 +12,23 @@ from sqlalchemy.orm import Session
 from app.models import User
 from typing import Annotated
 import bcrypt
-
 # for Render hosting environment 
 
 import json
-with open('/etc/secrets/secrecy.config.json', 'r') as f:
-    config = json.load(f)
+import os
+from dotenv import load_dotenv
+load_dotenv()
+CONFIG_PATH = os.getenv('config_path')
+
+with open(CONFIG_PATH, 'r') as f:
+        config = json.load(f)
 
 JWT_SECRET = config['JWT_SECRET']
 ALGORITHM = config['ALGORITHM']
 ACCESS_TOKEN_EXPIRE_MINUTES = config['ACCESS_TOKEN_EXPIRE_MINUTES']
 REFRESH_TOKEN_EXPIRE_DAYS = config['REFRESH_TOKEN_EXPIRE_DAYS']
+API_URL = config['API_URL']
+FRONTEND_URL = config['FRONTEND_URL']
 
 # local debug
 
@@ -30,6 +36,8 @@ REFRESH_TOKEN_EXPIRE_DAYS = config['REFRESH_TOKEN_EXPIRE_DAYS']
 
 # API_URL = "http://localhost:8000"
 # FRONTEND_URL = "http://localhost:3000"
+
+
 
 
 

@@ -26,3 +26,4 @@ app/certificates/
 venv/
 venv-py312/
 .env
+etc
