@@ -39,6 +39,9 @@ ALGORITHM = config['ALGORITHM']
 ACCESS_TOKEN_EXPIRE_MINUTES = config['ACCESS_TOKEN_EXPIRE_MINUTES']
 REFRESH_TOKEN_EXPIRE_DAYS = config['REFRESH_TOKEN_EXPIRE_DAYS']
 
+AUTO_EMAIL_ADDRESS = config['AUTO_EMAIL_ADDRESS']
+AUTO_EMAIL_PASSWORD = config['AUTO_EMAIL_PASSWORD']
+
 API_URL = config['API_URL']
 FRONTEND_URL = config['FRONTEND_URL']
 # FRONTEND_URL = "https://comic-lair-vite-app.onrender.com"
@@ -97,18 +100,17 @@ def send_activation_token(user_email: str, activation_token: str):
     smtp = smtplib.SMTP('smtp.gmail.com', 587) 
     smtp.ehlo() 
     smtp.starttls() 
-    smtp.login('noreplyLibrarium@gmail.com', 'kftcxccvnoieoyjb')
+    smtp.login(AUTO_EMAIL_ADDRESS, AUTO_EMAIL_PASSWORD)
 
-    me = "noreplyLibrarium@gmail.com"
+    me = AUTO_EMAIL_ADDRESS
 
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
     msg['Subject'] = "Link"
-    msg['From'] = "noreplyLibrarium@gmail.com"
+    msg['From'] = AUTO_EMAIL_ADDRESS
     msg['To'] = user_email
 
     # Create the body of the message (a plain-text and an HTML version).
-    text = "Hi!\nHow are you?\nHere is the link you wanted:\nhttp://www.python.org"
     html = f"""\
     <html>
     <head></head>
