@@ -20,7 +20,7 @@ app.add_middleware(
                    "http://localhost:5173",
                    "https://the-novel-town-backend.onrender.com",
                    "https://comic-lair-vite-app.onrender.com",
-                   "https://comic-lair-vite-app.onrender-dev.com"],
+                   "https://comic-lair-vite-app-dev.onrender.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
